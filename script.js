@@ -71,5 +71,12 @@ function loadingGG() {
     setTimeout(function () {
         document.getElementById("aload").style = "";
         document.getElementById("bload").style = "display: none;";
-    }, 2500);
+    }, 1500);
 }
+
+function reloadIMG(imgurl, imgid) {
+    var timestamp = new Date().getTime();
+    var image = document.getElementById(imgid);
+    image.src = imgurl + "&t=" + timestamp;
+}
+setInterval('reloadIMG("https://lanyard-profile-readme.vercel.app/api/600286650509295616?hideDiscrim=true&idleMessage=Probably%20AFK", "lanyardimage")', 30000)
