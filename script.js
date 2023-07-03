@@ -22,4 +22,4 @@ function reloadIMG(imgurl, imgid) {
     var image = document.getElementById(imgid);
     image.src = imgurl + "&t=" + timestamp;
 }
-setInterval('reloadIMG("https://lanyard-profile-readme.vercel.app/api/600286650509295616?hideDiscrim=true&idleMessage=Probably%20AFK", "lanyardimage")', 30000)
+setInterval('reloadIMG("https://lanyard-profile-readme.vercel.app/api/600286650509295616?showDisplayName=true&idleMessage=Probably%20AFK", "lanyardimage")', 30000)
