@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset='utf-8'/>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="HandheldFriendly" content="true"/>
     <title>Loki2442</title>
     <link rel="icon" href="./awesome.gif"/>
     <link rel='stylesheet' type='text/css' media='screen' href='./style.css'/>
-    <script src="./script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://lanyard-profile-readme.vercel.app" crossorigin="anonymous">
+    <link rel="dns-prefetch" href="https://unpkg.com" crossorigin="anonymous">
 
     <meta name="mobile-web-app-capable" content="no"/>
     <meta name="theme-color" content="#1e90ff"/>
@@ -18,30 +19,165 @@
     <meta name="twitter:title" content="Loki2442"/>
     <meta name="twitter:description" content="Yet another Human from Earth"/>
     <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/80869782/"/>
-
     <meta name="og:title" content="Loki2442" />
     <meta name="og:url" content="https://loki2442.github.io" />
     <meta name="og:description" content="Yet another Human from Earth"/>
     <meta name="og:image" content="https://avatars.githubusercontent.com/u/80869782/" />
-</head>
 
-<body onload="loadingGG()">
-    <div id="bload">
+    <script src="https://unpkg.com/matter-js@0.20.0/build/matter.min.js" integrity="sha512-6+7rTBmR6pRFe9fa0vCFjFaHZj/XYa7774bEBzRtxgdpIJOS++R3cKd6Prg/eJmxtsJotd8KAg4g57uuVQsZKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/poly-decomp@0.3.0/build/decomp.min.js" integrity="sha512-xqNyuwQni1uD692Tl8kmgIxuLNL/gMgCBtZ5SdePAMNPHofXh0mjvCcCXup9TdP1How41KUdMtb9fnBqGFKqrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function loadingGG() {
+            setTimeout(() => {
+                document.getElementsByTagName("main")[0].style = "";
+                document.getElementById("loader").style = "display: none;";
+                startEngine();
+            }, 200);
+        }
+
+        function display_time() {
+            const dt = new Date(), timeNodes = document.getElementById('time').children;
+            timeNodes[0].innerHTML = "🌏 " + dt.toLocaleString(undefined, { dateStyle: 'full' });
+            timeNodes[1].innerHTML = dt.toLocaleString(undefined, { timeStyle: 'medium' });
+            display_time_loop();
+        }
+        function display_time_loop() {
+            setTimeout(display_time, 1000);
+        }
+        display_time_loop();
+
+        const imgURL = "https://lanyard-profile-readme.vercel.app/api/600286650509295616?showDisplayName=true&idleMessage=Probably%20AFK";
+        setInterval(() => {
+            document.getElementById("lanyardImg").src = imgURL + "&t=" + new Date().getTime();
+        }, 30000);
+    </script>
+</head>
+<body>
+    <div id="loader">
         <div class="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
     </div>
-    <div class="descript" id="aload" style="display: none;">
-        <a href="https://youtube.com/@Loki2442"><img src="./assets/youtube.svg" alt="YouTube Channel" height="50" width="50"/></a>
-        <a href="https://steamcommunity.com/profiles/76561198984209411"><img src="./assets/steam.svg" alt="Steam Profile" height="50" width="50"/></a>
-        <a href="https://instagram.com/loki_2442/"><img src="./assets/instagram.svg" alt="Instagram Profile" height="50" width="50"/></a>
-        <br>
-        <a href="https://discord.com/channels/@me/600286650509295616/"><img id="lanyardimage" src="https://lanyard-profile-readme.vercel.app/api/600286650509295616?showDisplayName=true&idleMessage=Probably%20AFK" alt="Discord Presence" style="width:100%; height: 100%;"></a>
-        <br>
-        <span id='time'></span>
-    </div>
-</body>
+    <main style="display: none;">
+        <div class="container">
+            <a href="https://instagram.com/loki_2442/" target="_blank">
+                <img src="./assets/instagram.svg" alt="Instagram Profile" height="50" width="50"/>
+            </a>
+            <a href="https://steamcommunity.com/profiles/76561198984209411" target="_blank">
+                <img src="./assets/steam.svg" alt="Steam Profile" height="50" width="50"/>
+            </a>
+            <a href="https://youtube.com/@Loki2442" target="_blank">
+                <img src="./assets/youtube.svg" alt="YouTube Channel" height="50" width="50"/>
+            </a>
+            <br>
+            <a href="https://discord.com/channels/@me/600286650509295616/" target="_blank">
+                <img id="lanyardImg" src="https://lanyard-profile-readme.vercel.app/api/600286650509295616?showDisplayName=true&idleMessage=Probably%20AFK" alt="Discord Presence" onload="loadingGG()">
+            </a>
+            <br>
+            <p id='time'>
+                <span></span>&nbsp;•&nbsp;<span></span>
+            </p>
+        </div>
+        <canvas id="canvas"></canvas>
+    </main>
+    <script>
+        const shapeColour = "#2e3438";
+        const canvasWidth = window.innerWidth, canvasHeight = window.innerHeight;
+        const halfCanvasWidth = canvasWidth / 2, halfCanvasHeight = canvasHeight / 2;
+        const canvasWidth75 = canvasWidth * 0.75, canvasHeight15 = canvasHeight * 0.15;
 
+        const halfShapeSize = 97 / 2, halfShapeWidth = 10 / 2;
+        const saltireVertices = [
+            {x: -halfShapeSize, y: -halfShapeWidth},
+            {x: -halfShapeSize, y: halfShapeWidth},
+            {x: -halfShapeWidth, y: halfShapeWidth},
+            {x: -halfShapeWidth, y: halfShapeSize},
+            {x: halfShapeWidth, y: halfShapeSize},
+            {x: halfShapeWidth, y: halfShapeWidth},
+            {x: halfShapeSize, y: halfShapeWidth},
+            {x: halfShapeSize, y: -halfShapeWidth},
+            {x: halfShapeWidth, y: -halfShapeWidth},
+            {x: halfShapeWidth, y: -halfShapeSize},
+            {x: -halfShapeWidth, y: -halfShapeSize},
+            {x: -halfShapeWidth, y: -halfShapeWidth},
+        ];
+
+        // create matter-js properties
+        Matter.Common.setDecomp(decomp);
+        const engine = Matter.Engine.create();
+        const runner = Matter.Runner.create();
+        const renderer = Matter.Render.create({
+            canvas: document.getElementById("canvas"),
+            engine: engine,
+            options: {
+                wireframes: false,
+                background: "transparent",
+                width: canvasWidth,
+                height: canvasHeight,
+            }
+        });
+
+        // create bodies
+        const Bodies = Matter.Bodies;
+        const box = Bodies.rectangle(canvasWidth75 + 50, canvasHeight15 - 25, 75, 75, { render: { fillStyle: shapeColour } });
+        const circle = Bodies.circle(canvasWidth75, canvasHeight15 - 50, 37.5, { render: { fillStyle: shapeColour } });
+        const triangle = Bodies.polygon(canvasWidth75 - 50, canvasHeight15, 3, 50, { render: { fillStyle: shapeColour } });
+        const saltire = Bodies.fromVertices(canvasWidth75, canvasHeight15 + 50, saltireVertices, { render: { fillStyle: shapeColour } });
+
+        const ceiling = Bodies.rectangle(halfCanvasWidth, -1, canvasWidth, 1, { isStatic: true });
+        const floor = Bodies.rectangle(halfCanvasWidth, canvasHeight + 1, canvasWidth, 1, { isStatic: true });
+        const leftWall = Bodies.rectangle(-1, halfCanvasHeight, 1, canvasHeight, { isStatic: true });
+        const rightWall = Bodies.rectangle(canvasWidth + 1, halfCanvasHeight, 1, canvasHeight, { isStatic: true });
+
+        // add bodies to the world
+        Matter.Composite.add(engine.world, [box, circle, triangle, saltire, ceiling, floor, leftWall, rightWall]);
+
+        // run the renderer
+        Matter.Render.run(renderer);
+
+        // run the engine
+        const startEngine = () => {
+            Matter.Runner.run(runner, engine);
+
+            // add mouse control
+            const mouse = Matter.Mouse.create(renderer.canvas);
+            const mouseConstraint = Matter.MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: {
+                        visible: false
+                    }
+                }
+            });
+            Matter.Composite.add(engine.world, mouseConstraint);
+            renderer.mouse = mouse;
+
+            // add gyroscope control
+            window.addEventListener('deviceorientation', (event) => {
+                if (event.gamma === null || event.beta === null) return;
+                switch (typeof window.screen.orientation === "undefined" ? 0 : window.screen.orientation.angle) {
+                    case 0:
+                        engine.gravity.x = Matter.Common.clamp(event.gamma, -90, 90) / 90;
+                        engine.gravity.y = Matter.Common.clamp(event.beta, -90, 90) / 90;
+                        break;
+                    case 180:
+                        engine.gravity.x = Matter.Common.clamp(-event.gamma, -90, 90) / 90;
+                        engine.gravity.y = Matter.Common.clamp(-event.beta, -90, 90) / 90;
+                        break;
+                    case 90:
+                        engine.gravity.x = Matter.Common.clamp(event.beta, -90, 90) / 90;
+                        engine.gravity.y = Matter.Common.clamp(-event.gamma, -90, 90) / 90;
+                        break;
+                    case -90:
+                        engine.gravity.x = Matter.Common.clamp(-event.beta, -90, 90) / 90;
+                        engine.gravity.y = Matter.Common.clamp(event.gamma, -90, 90) / 90;
+                        break;
+                }
+            });
+        }
+    </script>
+</body>
 </html>
